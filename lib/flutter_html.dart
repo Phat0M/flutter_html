@@ -58,6 +58,7 @@ class Html extends StatefulWidget {
     this.onlyRenderTheseTags,
     this.doNotRenderTheseTags,
     this.style = const {},
+    this.overrideStyle = const {},
   })  : documentElement = null,
         assert(data != null),
         _anchorKey = anchorKey ?? GlobalKey(),
@@ -75,6 +76,7 @@ class Html extends StatefulWidget {
     this.doNotRenderTheseTags,
     this.onlyRenderTheseTags,
     this.style = const {},
+    this.overrideStyle = const {},
   })  : data = null,
         assert(document != null),
         documentElement = document!.documentElement,
@@ -93,6 +95,7 @@ class Html extends StatefulWidget {
     this.doNotRenderTheseTags,
     this.onlyRenderTheseTags,
     this.style = const {},
+    this.overrideStyle = const {},
   })  : data = null,
         assert(documentElement != null),
         _anchorKey = anchorKey ?? GlobalKey(),
@@ -138,6 +141,9 @@ class Html extends StatefulWidget {
   /// An API that allows you to override the default style for any HTML element
   final Map<String, Style> style;
 
+  /// An API that allows you to override the style for any HTML element from data
+  final Map<String, Style> overrideStyle;
+
   @override
   State<StatefulWidget> createState() => _HtmlState();
 }
@@ -174,6 +180,7 @@ class _HtmlState extends State<Html> {
       onCssParseError: widget.onCssParseError,
       shrinkWrap: widget.shrinkWrap,
       style: widget.style,
+      overrideStyle: widget.overrideStyle,
       extensions: widget.extensions,
       doNotRenderTheseTags: widget.doNotRenderTheseTags,
       onlyRenderTheseTags: widget.onlyRenderTheseTags,

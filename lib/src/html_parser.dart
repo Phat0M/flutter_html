@@ -35,6 +35,7 @@ class HtmlParser extends StatefulWidget {
   final OnTap? onAnchorTap;
   final OnCssParseError? onCssParseError;
   final bool shrinkWrap;
+  final Map<String, Style> overrideStyle;
   final Map<String, Style> style;
   final List<HtmlExtension> extensions;
   final Set<String>? doNotRenderTheseTags;
@@ -49,6 +50,7 @@ class HtmlParser extends StatefulWidget {
     required this.onAnchorTap,
     required this.onCssParseError,
     required this.shrinkWrap,
+    required this.overrideStyle,
     required this.style,
     required this.extensions,
     required this.doNotRenderTheseTags,
@@ -303,6 +305,13 @@ class _HtmlParserState extends State<HtmlParser> {
       }
     });
 
+    // Apply default styles
+    widget.style.forEach((selector, style) {
+      if (tree.matchesSelector(selector)) {
+        tree.style = tree.style.merge(style);
+      }
+    });
+
     // Apply inline styles
     if (tree.attributes.containsKey("style")) {
       final newStyle =
@@ -313,7 +322,7 @@ class _HtmlParserState extends State<HtmlParser> {
     }
 
     // Apply custom styles
-    widget.style.forEach((selector, style) {
+    widget.overrideStyle.forEach((selector, style) {
       if (tree.matchesSelector(selector)) {
         tree.style = tree.style.merge(style);
       }
